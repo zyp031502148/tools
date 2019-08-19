@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>ajax测试</title>
+</head>
+<body>
+	<div>
+		<h2>get-test</h2>
+		<input type="text" name="" id="name">
+		<input type="text" name="" id="password">
+		<input type="submit" name="" id="submit" value="注册">
+	</div>
+</body>
+<script type="text/javascript" src="./ajax.js"></script>
+<script type="text/javascript">
+//要放到服务器上在调用
+//get 的调用方法
+	document.querySelector('#submit').onclick = function(){
+		data = 'name=jack&friend=rose';
+		get('./get.txt',data,function(){
+			console.log('get test success!');
+		});
+	}
+//post 的调用方法
+	document.querySelector('#submit').onclick = function(){
+		data = 'name=jack&friend=rose';
+		post('./post.txt',data,function(){
+			console.log('post test success!');
+		});
+	}
+	document.querySelector('#submit').onclick = function(){
+	data = 'name=jack&friend=rose';
+	ajax('get','./post.txt',data,function(){
+		console.log('ajax test success!');
+	});
+}
+</script>
+</html>
