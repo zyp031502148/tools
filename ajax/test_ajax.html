@@ -11,29 +11,30 @@
 		<input type="text" name="" id="password">
 		<input type="submit" name="" id="submit" value="注册">
 	</div>
+	<a href="test_ajax_02.html">跳转到测试二（ajax参数融合）</a>
 </body>
-<script type="text/javascript" src="./ajax.js"></script>
+<script type="text/javascript" src="./js/ajax.js"></script>
 <script type="text/javascript">
 //要放到服务器上在调用
 //get 的调用方法
 	document.querySelector('#submit').onclick = function(){
 		data = 'name=jack&friend=rose';
-		get('./get.txt',data,function(){
+		get('./api/get.txt',data,function(){
 			console.log('get test success!');
 		});
 	}
 //post 的调用方法
 	document.querySelector('#submit').onclick = function(){
 		data = 'name=jack&friend=rose';
-		post('./post.txt',data,function(){
+		post('./api/post.txt',data,function(){
 			console.log('post test success!');
 		});
 	}
 	document.querySelector('#submit').onclick = function(){
-	data = 'name=jack&friend=rose';
-	ajax('get','./post.txt',data,function(){
-		console.log('ajax test success!');
-	});
-}
+		data = 'name=jack&friend=rose';
+		ajax('get','./api/post.txt',data,function(){
+			console.log('ajax test success!');
+		});
+	}
 </script>
 </html>

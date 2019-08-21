@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>测试ajax版本2</title>
+</head>
+<body>
+	<div>
+		<h2>get-test</h2>
+		<input type="text" name="" id="name">
+		<input type="text" name="" id="password">
+		<input type="submit" name="" id="submit" value="注册">
+	</div>
+</body>
+<script type="text/javascript" src="./js/ajax_02.js"></script>
+<script type="text/javascript">
+//要放到服务器上在调用
+	/*ajax版本2*/
+	document.querySelector('#submit').onclick = function(){
+		var option = {
+			url:"./api/mix.txt",
+			type:"get",
+			data:"兔子爱吃西蓝花&西蓝花爱吃土",
+			success:function(data){
+				console.log('success！')
+			}
+		}
+		ajax(option);
+	}
+</script>
+</html>
