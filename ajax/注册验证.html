@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>注册验证</title>
+	<style>
+
+		.regist-box{
+			width: 380px;
+			margin: 30px auto;
+			background: skyblue;
+			padding: 30px;
+		}
+		#testBtn{
+			width: 80px;
+			height: 50px;
+			border: 0px;
+		}
+		.disable{
+			background: #9ba098c7;
+			border: 0px;
+		}
+		.avalible{
+			background: #9cf566c7;
+		}
+	</style>
+</head>
+<body>
+	<div class="regist-box">
+		<label for="username" id="tips"></label>
+		<p>
+			<label for="username">用户名：</label>
+			<input type="text" name="username" id="username">
+		</p>
+		<p>
+			<label for="password">密&nbsp;&nbsp;&nbsp;码：</label>
+			<input type="text" name="password" id="password">
+		</p>
+		<p>
+			<label for="phoneNumeber">手机号：</label>
+			<input type="text" name="phoneNumeber" id="phoneNumeber">
+		</p>
+
+		<p>
+			<label for="test-code">验证码：</label>
+			<input type="text" name="test-code" id="test-code" >
+			<button id="testBtn" class="avalible">点击验证</button>
+		</p>
+		<p>
+			<button id="registBtn">注册</button>
+		</p>
+		
+	</div>
+	<a href="模板使用.html">模板使用</a>
+	<script type="text/javascript" src="./js/jquery-1.10.2.min.js"></script>
+	<script type="text/javascript">
+		/*
+		需求：
+				1.用户名失去焦点，验证数据
+					ajax
+						响应之后：
+								修改页面提示--tips
+								淡入淡出
+				2.手机号失去焦点，验证数据，并用正则表达式验证手机号码格式
+					ajax
+						响应之后：
+								修改页面提示--tips
+								淡入淡出
+				3.点击获取验证码
+						ajax
+							请求响应之后
+								直接填入验证码框框
+				4.倒计时功能
+						点击验证之后
+							判断是否有类名，有类名时不能点击
+								添加类名
+								延迟60秒才能继续点
+								修改按钮内容
+		 */
+		$('#username').blur(function(event) {
+			/*失去焦点是验证用户名是否有用 */
+			$.ajax({
+				url:'api/regist_username.json',
+				data:{
+					/*name:$('#username').val()*/
+				},
+				success:function(data){
+					if(data.message!='ok'){
+						console.log(data.message);
+						$('#tips').html('验证失败！').fadeIn().delay(3000).fadeOut();
+					}else {
+						$('#tips').html('验证成功！').fadeIn().delay(3000).fadeOut();
+					}
+				}
+			})
+
+		});
+		$('#phoneNumeber').blur(function(event){
+			/*手机号失去焦点，验证数据，并用正则表达式验证手机号码格式 */
+			var reg = /^1[0-9]{10}$/;
+			if(reg.test($('#phoneNumeber').val())){
+				$.ajax({
+					url: 'api/regist_username.json',
+					success:function(data){
+						if(data.message!='ok'){
+							console.log(data.message);
+							$('#tips').html('验证失败！').fadeIn().delay(3000).fadeOut();
+						}else {
+							$('#tips').html('验证成功！').fadeIn().delay(3000).fadeOut();
+
+						}
+					}
+				})
+				.done(function() {
+					console.log("success");
+				})
+				.fail(function() {
+					console.log("error");
+				})
+				.always(function() {
+					console.log("complete");
+				});
+			}else{
+				$('#tips').html('验证失败！').fadeIn().delay(3000).fadeOut();
+			}
+			
+		});
+		$('#testBtn').click(function(event) {
+			/* Act on the event */
+			if($('#testBtn').hasClass('disable')){
+					alert("别点了");
+					return;
+			}else{
+				$('#testBtn').removeClass('avalible').addClass('disable');
+				var endtime = 4;
+				var timer = setInterval(function(){
+					endtime--;
+					$('#testBtn').html('还有'+endtime+'s');
+					if(endtime<=0){
+						clearInterval(timer);
+						$('#testBtn').removeClass('disable').addClass('avalible');
+						$('#testBtn').html('点击验证');
+					}
+				},1000)
+			}
+
+			$.ajax({
+				url: 'api/regist_username.json',
+				success:function(){
+					$('#test-code').val(123);
+				}
+			})
+			.done(function() {
+				console.log("success");
+			})
+			.fail(function() {
+				console.log("error");
+			})
+			.always(function() {
+				console.log("complete");
+			});
+			
+		});
+	</script>
+</body>
+</html>

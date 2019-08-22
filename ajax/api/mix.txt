@@ -1,1 +1,2 @@
-既可以用get也可以用post
+'既可以用get也可以用post'
+{mix}

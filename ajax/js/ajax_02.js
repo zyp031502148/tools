@@ -6,9 +6,9 @@
  */
 function ajax(option){
 	var xhr = new XMLHttpRequest();
-	if(type=='get'&&option.data){
-		url += '?';
-		url += option.data;
+	if(option.type=='get'&&option.data){
+		option.url += '?';
+		option.url += option.data;
 	}
 	xhr.open(option.type, option.url);
 	if(option.type=='post' && option.data){
@@ -16,7 +16,12 @@ function ajax(option){
 	}
 	xhr.onreadystatechange = function(){
 		if(xhr.readyState == 4 && xhr.status == 200){
-			option.success(xhr.responseText)
+			var type = xhr.getResponseHeader('content-type');
+			if(type.indexOf('json') != -1){
+				option.success(xhr.responseText);
+			}else if (type.indexOf('xml') != -1) {
+				option.success(xhr.responseXML);
+			}
 		}
 	}
 	xhr.send(option.data);

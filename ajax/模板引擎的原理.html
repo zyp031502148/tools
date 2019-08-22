@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>模板引擎的原理</title>
+</head>
+<body>
+	<script type="text/html" id="template">
+		<ul>
+			<li>名字:{{name}}</li>
+			<li>技能:{{skill}}</li>
+		</ul>
+	</script>
+	<!-- 用正则表达式找到匹配的地方然后替换元素内容 -->
+</body>
+<script type="text/javascript">
+	//获取模板中的内容
+	var str = document.querySelector('#template').innerHTML;
+	//准备对象
+	var data = {
+		name:'程冠希',
+		skill:'不会修电脑'
+	}
+	//替换内容
+	var reg = /{{(\w+)}}/;
+	var result = reg.exec(str);
+	console.log(result[0])//{{name}}
+	console.log(result[1])//name
+while (result) {
+	// statement
+	str=str.replace(result[0],data[result[1]]);
+	console.log(str);
+	result = reg.exec(str)
+
+}
+	
+</script>
+</html>

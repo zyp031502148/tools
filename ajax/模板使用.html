@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>模板引擎使用</title>
+	<style type="text/css">
+		 .reduction{
+			width:320px;
+			position: relative;
+		}
+		.evaluate{
+			width: 30%;
+			position: absolute;
+			bottom:100px;
+			right: -40px;
+		}
+		.txt{
+			margin: 20px auto;
+			padding-left: 20px;
+		} 
+	</style>
+</head>
+<body>
+	<div>
+		<a id="onemore">加载一张</a>
+	</div>
+	<div id="box"></div>
+	<script type="text/javascript" src="./js/jquery-1.10.2.min.js"></script>
+	<script type="text/javascript" src="./js/template-web.js"></script>
+	<script type="text/html" id="productInform">
+<!-- 
+		/**
+		 * 0.导入模板引擎文件
+		 * 1.定义模板
+		 * 2.挖坑，起名字(挖坑一般取决于数据)
+		 * 3.填坑
+		 * 		数据 服务器 ajax
+		 * 		回调函数
+		 * 	4.使用
+		 * 
+		 */ 
+-->
+		<div class="reduction">
+			<a href="categery_page2.html">
+				<div>
+					<img src="{{img}}" class="goodsimg">
+					<img src="images/a+.png" class="evaluate">
+				</div>
+				<div class="txt">
+					<p>{{introduction}}</p>
+					<span>{{likeNumber}}人喜欢</span>
+				</div>
+			</a>
+		</div>
+</script>
+<script type="text/javascript">
+	$('#onemore').click(function(event) {
+		/* Act on the event */
+		$.ajax({
+			url: 'api/productInfo.json',
+			success:function(data){
+				
+				var result = template("productInform",{
+					img:data.img,
+					introduction:data.introduction,
+					likeNumber:data.likeNumber
+				});
+				console.log(result);
+				$("#box").append(result);
+			}
+		})
+		.done(function() {
+			console.log("success");
+		})
+		.fail(function() {
+			console.log("error");
+		})
+		.always(function() {
+			console.log("complete");
+		});
+	});
+	
+	
+</script>
+</body>
+</html>
